@@ -48,5 +48,14 @@ jobs:
       - run: php artisan migrate --force
       - name: PHP syntax check
         run: find app bootstrap config database routes tests -type f -name '*.php' -print0 | xargs -0 -n1 php -l
-      - run: php artisan test
+      - name: Unit incident-domain contracts
+        run: php artisan test tests/Unit
+      - name: Stale expected-version contract
+        run: php artisan test --filter=test_stale_expected_version_returns_latest_snapshot_without_lost_update
+      - name: Client command replay contract
+        run: php artisan test --filter=test_client_command_replay_is_idempotent
+      - name: Event replay cursor contract
+        run: php artisan test --filter=test_event_replay_returns_only_sequences_after_cursor
+      - name: Tenant isolation contract
+        run: php artisan test --filter=test_cross_tenant_incident_access_is_forbidden
       - run: npm install --no-audit --no-fund && npm run build
