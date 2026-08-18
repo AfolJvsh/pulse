@@ -1,0 +1,2 @@
+<?php
+namespace Tests\Unit;use App\Domain\Incidents\{SequenceDecision,SequenceGuard};use PHPUnit\Framework\TestCase;final class SequenceGuardTest extends TestCase{public function test_detects_duplicates_and_gaps():void{$g=new SequenceGuard;$this->assertSame(SequenceDecision::Apply,$g->decide(9,10));$this->assertSame(SequenceDecision::Ignore,$g->decide(9,8));$this->assertSame(SequenceDecision::Gap,$g->decide(9,12));}}

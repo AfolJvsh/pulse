@@ -1,0 +1,14 @@
+<?php
+use App\Http\Controllers\{IncidentController,NotificationPreferenceController,OperationsController,RealtimeTelemetryController,WorkspaceController};
+use Illuminate\Support\Facades\Route;
+Route::get('/health',fn()=>['ok'=>true,'service'=>'pulse']);
+Route::prefix('auth')->middleware('throttle:30,1')->group(function(){Route::post('/register',[\App\Http\Controllers\Auth\AuthController::class,'register']);Route::post('/login',[\App\Http\Controllers\Auth\AuthController::class,'login']);Route::middleware('auth:sanctum')->get('/me',[\App\Http\Controllers\Auth\AuthController::class,'me']);Route::middleware('auth:sanctum')->delete('/logout',[\App\Http\Controllers\Auth\AuthController::class,'logout']);});
+Route::middleware(['auth:sanctum','throttle:240,1'])->group(function(){
+ Route::get('/incidents',[IncidentController::class,'index']);Route::post('/incidents',[IncidentController::class,'store']);Route::get('/incidents/{incident}',[IncidentController::class,'show']);Route::get('/incidents/{incident}/events',[IncidentController::class,'events']);
+ Route::put('/incidents/{incident}/severity',[IncidentController::class,'severity']);Route::put('/incidents/{incident}/status',[IncidentController::class,'status']);Route::put('/incidents/{incident}/commander',[IncidentController::class,'commander']);Route::post('/incidents/{incident}/participants',[IncidentController::class,'participant']);
+ Route::post('/incidents/{incident}/comments',[IncidentController::class,'comment']);Route::put('/incidents/{incident}/comments/{comment}',[IncidentController::class,'editComment']);
+ Route::post('/incidents/{incident}/action-items',[IncidentController::class,'actionItem']);Route::put('/incidents/{incident}/action-items/{actionItem}',[IncidentController::class,'updateActionItem']);Route::put('/incidents/{incident}/action-items/{actionItem}/complete',[IncidentController::class,'completeActionItem']);
+ Route::put('/incidents/{incident}/note',[IncidentController::class,'saveNote']);Route::post('/incidents/{incident}/monitoring-signals',[IncidentController::class,'monitoringSignal']);Route::post('/incidents/{incident}/realtime-heartbeat',[RealtimeTelemetryController::class,'heartbeat']);
+ Route::get('/organizations/{organizationId}/members',[WorkspaceController::class,'members']);Route::get('/organizations/{organizationId}/teams',[WorkspaceController::class,'teams']);Route::post('/organizations/{organizationId}/teams',[WorkspaceController::class,'storeTeam']);Route::delete('/organizations/{organizationId}/teams/{team}',[WorkspaceController::class,'deleteTeam']);
+ Route::get('/organizations/{organizationId}/notification-preferences',[NotificationPreferenceController::class,'show']);Route::put('/organizations/{organizationId}/notification-preferences',[NotificationPreferenceController::class,'update']);Route::get('/organizations/{organizationId}/metrics',[OperationsController::class,'metrics']);
+});

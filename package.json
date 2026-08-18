@@ -1,0 +1,31 @@
+{
+  "name": "pulse",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint resources/js --ext .ts,.tsx",
+    "load:socket": "node tools/socket_load.mjs"
+  },
+  "dependencies": {
+    "@inertiajs/react": "^2.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0",
+    "typescript": "^5.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "laravel-vite-plugin": "^2.0.0",
+    "axios": "^1.11.0",
+    "laravel-echo": "^2.2.0",
+    "pusher-js": "^8.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "ws": "^8.18.0"
+  }
+}

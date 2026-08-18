@@ -1,0 +1,2 @@
+<?php
+return ['default'=>env('CACHE_STORE','database'),'stores'=>['array'=>['driver'=>'array','serialize'=>false],'database'=>['driver'=>'database','connection'=>null,'table'=>'cache','lock_connection'=>null,'lock_table'=>null],'redis'=>['driver'=>'redis','connection'=>'cache','lock_connection'=>'default']],'prefix'=>env('CACHE_PREFIX', str(env('APP_NAME','laravel'))->slug('_')->append('_cache_'))];
